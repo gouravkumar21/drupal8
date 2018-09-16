@@ -25,5 +25,11 @@ if (in_array(23,$people, TRUE))
 else
   {
   echo "Match not found<br>";
-  }
+}
+if (in_array()
+
+{
+echo ()"Match color"}
+
+
 ?>
