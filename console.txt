@@ -1,0 +1,34 @@
+/*
+This is the javascript file that will contain all the custom javascript code that you will be writing to customize the interactivity of the Apigee developer portal.
+*/
+(function ($){
+  $(document).ready(function(){
+    // onclick render the SmartDocs method by href
+    $(".views-field-title span a").click(function(e){
+      var linkherf = ($(this).attr('href'));
+      renderSmartDocsMethod(linkherf);
+      e.preventDefault();
+    });
+
+    // onload render the first SmartDocs method by default
+    var firstRowherf = ($(".views-row-first .views-field-title span a").attr('href'));
+    renderSmartDocsMethod(firstRowherf);
+  });
+
+  function renderSmartDocsMethod(linkherf) {
+    $.ajax({url: linkherf,
+      beforeSend: function(){
+         $("#apimethod-content").html('<img id="smartdocs-spinner" src="'+ Drupal.settings.basePath +'sites/all/themes/dbank/images/spinner.gif" alt="Loading..." />');
+         $("#apimethod-content").show();
+      },
+      success: function(result){
+      var out = '';
+      out += '<style>@import url("'+ Drupal.settings.basePath +'profiles/apigee/modules/custom/devconnect/smartdocs/local/css/main.css?p0yx7w");@import url("'+ Drupal.settings.basePath +'profiles/apigee/modules/custom/devconnect/smartdocs/local/css/codemirror.css?p0yx7w");@import url("'+ Drupal.settings.basePath +'profiles/apigee/modules/custom/devconnect/smartdocs/local/css/prism.css?p0yx7w");@importurl("'+ Drupal.settings.basePath +'profiles/apigee/modules/custom/devconnect/smartdocs/css/smartdocs.css?p0yx7w");@import url("'+ Drupal.settings.basePath +'sites/all/themes/dbank/css/smartdocsCustom.css?p0z1ga");</style>';
+
+      out += '<script src="'+ Drupal.settings.basePath +'profiles/apigee/modules/custom/devconnect/smartdocs/local/js/codemirror.js?p0yx7w"></script><script src="'+ Drupal.settings.basePath +'profiles/apigee/modules/custom/devconnect/smartdocs/local/js/codemirror_javascript.js?p0yx7w"></script><script src="'+Drupal.settings.basePath+'profiles/apigee/modules/custom/devconnect/smartdocs/local/js/codemirror_xml.js?p0yx7w"></script><script src="'+Drupal.settings.basePath+'profiles/apigee/modules/custom/devconnect/smartdocs/local/js/prism.js?p0yx7w"></script><script src="'+ Drupal.settings.basePath +'profiles/apigee/modules/custom/devconnect/smartdocs/local/js/base64_min.js?p0yx7w"></script><script src="'+Drupal.settings.basePath+'profiles/apigee/modules/custom/devconnect/smartdocs/local/js/v6/model.js?p0yx7w"></script><script src="'+Drupal.settings.basePath+'profiles/apigee/modules/custom/devconnect/smartdocs/local/js/v6/controller.js?p0yx7w"></script>';
+
+      out += $(result).find('div.smartdocs-wrapper').prop('outerHTML');      
+      $("#apimethod-content").html(out);
+    }});
+  }
+})(jQuery);
